@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "python-akeneo"
 version = "0.0.1"
 authors = [
-  { name="Thomas Solenthaler", email="tsolenthaler@gmail.com" },
+  { name="Thomas Solenthaler" },
 ]
 description = "A small package for the Akeneo API"
 readme = "README.md"
@@ -18,5 +18,5 @@ classifiers = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/pypa/sampleproject"
-"Bug Tracker" = "https://github.com/pypa/sampleproject/issues"
+"Homepage" = "https://github.com/tsolenthaler/python-akeneo"
+"Bug Tracker" = "https://github.com/tsolenthaler/python-akeneo/issues"
