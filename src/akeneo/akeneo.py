@@ -81,7 +81,7 @@ class Akeneo:
         headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer '+ self.accessToken}
         nextLink = ''
         starturl = '/api/rest/v1/products'
-        starturl += '?pagination_type=search_after'
+        starturl += '?pagination_type=search_after&limit=20'
         if len(search) > 2:
             starturl += '&search='+search
         while nextPage:
