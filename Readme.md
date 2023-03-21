@@ -9,3 +9,12 @@ https://github.com/denkiwakame/py-tiny-pkg
 
 # Check other Python Akeneo
 https://github.com/KaveTech/pyakeneo
+
+
+# Build package
+
+py -m build
+
+# Publish Test package
+
+py -m twine upload --repository testpypi dist/*

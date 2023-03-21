@@ -18,5 +18,5 @@ classifiers = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/tsolenthaler/akeneo"
-"Bug Tracker" = "https://github.com/tsolenthaler/akeneo/issues"
+"Homepage" = "https://github.com/tsolenthaler/python-akeneo"
+"Bug Tracker" = "https://github.com/tsolenthaler/python-akeneo/issues"
