@@ -75,6 +75,8 @@ class Akeneo:
             return False
         r.close()
     
+    # Get Products
+    # https://api.akeneo.com/api-reference.html#get_products
     def getProducts(self, search=''):
         nextPage = True
         items = []
