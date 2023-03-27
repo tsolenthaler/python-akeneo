@@ -18,3 +18,7 @@ py -m build
 # Publish Test package
 
 py -m twine upload --repository testpypi dist/*
+
+## Test Package Install
+
+https://test.pypi.org/project/akeneo/0.0.2/
