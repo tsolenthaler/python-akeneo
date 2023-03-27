@@ -108,10 +108,14 @@ class Akeneo:
             r.close()
         return items
 
+    # Get Product by Code
+    # https://api.akeneo.com/api-reference.html#get_products__code_
     def getProductByCode(self, code):
         query = '/api/rest/v1/products/' + str(code)
         return self.getRequest(query)
-
+    
+    # Patch Product by Code
+    # https://api.akeneo.com/api-reference.html#patch_products__code_
     def patchProductByCode(self, code, body):
         query = '/api/rest/v1/products/' + str(code)
         return self.patchRequest(query, body, 'application/json')
@@ -212,6 +216,12 @@ class Akeneo:
     def patchMeasurementFamily(self, body):
         query = '/api/rest/v1/measurement-families'
         return self.patchRequest(query, body, 'application/json')
+
+    # Patch Products
+    # https://api.akeneo.com/api-reference.html#patch_products
+    def patchProducts(self, body):
+        query = '/api/rest/v1/products'
+        return self.patchList(query, body)
 
     def patchList(self, query, body):
         url = self.host+query
