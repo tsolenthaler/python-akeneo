@@ -1,2 +1,4 @@
 dist/*
 src/akeneo.egg-info/*
+test/*
+.env
