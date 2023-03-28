@@ -30,6 +30,22 @@ class Akeneo:
             print(r.status_code)
             return False
         r.close()
+
+    def postRequest(self, query, data, contentType, file):
+        url = self.host + query
+        files = {
+            'file': open(file, 'rb')
+        }
+        headers = {'Content-Type': contentType, 'Authorization': 'Bearer '+ self.accessToken}
+        r = requests.post(url, data=data, headers=headers, files=files) #data=payload,
+        if r:
+            return r.status_code
+        else:
+            print('An error has occurred.')
+            print(r.status_code)
+            print(r.json())
+            return False
+        r.close()
     
     def patchRequest(self, query, data, contentType):
         url = self.host+query
@@ -222,6 +238,12 @@ class Akeneo:
     def patchProducts(self, body):
         query = '/api/rest/v1/products'
         return self.patchList(query, body)
+    
+    # POST Media File
+    # https://api.akeneo.com/api-reference.html#post_media_files
+    def postMediaFile(self, body, file):
+        query = '/api/rest/v1/media-files'
+        return self.postRequest(query, body, 'multipart/form-data', file)
 
     def patchList(self, query, body):
         url = self.host+query
