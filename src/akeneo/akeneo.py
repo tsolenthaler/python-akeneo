@@ -1,5 +1,10 @@
 import json
 import requests
+import mimetypes
+import urllib3
+import base64
+import collections
+import mimetypes
 from oauthlib.oauth2 import LegacyApplicationClient
 from requests_oauthlib import OAuth2Session
 
@@ -31,13 +36,26 @@ class Akeneo:
             return False
         r.close()
 
-    def postRequest(self, query, data, contentType, file):
+    def getAkeneoImageValue(file, sku, attribute, scope=None, local=None):
+        product_data = json.dumps({
+            "identifier": sku,
+            "attribute": attribute,
+            "scope": scope,
+            "locale": local
+        })
+        image_base64 = base64.b64encode(file)
+        mimetype = mimetypes.guess_type(base64.b64decode(image_base64))[0]
+        payload = collections.OrderedDict({
+            'product': str(product_data),
+            'file': (mimetype.replace("/", "."), base64.b64decode(image_base64))
+        })
+        return payload
+
+    def postMediaRequest(self, query, data):
         url = self.host + query
-        files = {
-            'file': open(file, 'rb')
-        }
-        headers = {'Content-Type': contentType, 'Authorization': 'Bearer '+ self.accessToken}
-        r = requests.post(url, data=data, headers=headers, files=files) #data=payload,
+        (content, content_type) = urllib3.filepost.encode_multipart_formdata(data)
+        headers = {'Content-Type': content_type, 'Authorization': 'Bearer '+ self.accessToken}
+        r = requests.post(url, headers=headers, data=data)
         if r:
             return r.status_code
         else:
@@ -241,9 +259,10 @@ class Akeneo:
     
     # POST Media File
     # https://api.akeneo.com/api-reference.html#post_media_files
-    def postMediaFile(self, body, file):
+    def postMediaFileProduct(self, file, sku, attribute, locale, scope):
+        body = self.getAkeneoImageValue(file, sku, attribute, locale, scope)
         query = '/api/rest/v1/media-files'
-        return self.postRequest(query, body, 'multipart/form-data', file)
+        return self.postMediaRequest(query, body)
 
     def patchList(self, query, body):
         url = self.host+query
