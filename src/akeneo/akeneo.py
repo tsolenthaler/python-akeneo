@@ -36,7 +36,7 @@ class Akeneo:
             return False
         r.close()
 
-    def getAkeneoImageValue(file, sku, attribute, scope=None, local=None):
+    def getMediaFileBody(self, file, sku, attribute, scope=None, local=None):
         product_data = json.dumps({
             "identifier": sku,
             "attribute": attribute,
@@ -260,7 +260,7 @@ class Akeneo:
     # POST Media File
     # https://api.akeneo.com/api-reference.html#post_media_files
     def postMediaFileProduct(self, file, sku, attribute, locale, scope):
-        body = self.getAkeneoImageValue(file, sku, attribute, locale, scope)
+        body = self.getMediaFileBody(file, sku, attribute, locale, scope)
         query = '/api/rest/v1/media-files'
         return self.postMediaRequest(query, body)
 
