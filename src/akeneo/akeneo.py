@@ -36,15 +36,16 @@ class Akeneo:
             return False
         r.close()
 
-    def getMediaFileBody(self, file, sku, attribute, scope=None, local=None):
+    def getMediaFileBody(self, filePath, sku, attribute, scope=None, local=None):
         product_data = json.dumps({
             "identifier": sku,
             "attribute": attribute,
             "scope": scope,
             "locale": local
         })
+        file = open(filePath, 'rb').read()
         image_base64 = base64.b64encode(file)
-        mimetype = mimetypes.guess_type(base64.b64decode(file))[0]
+        mimetype = mimetypes.guess_type(filePath)[0]
         payload = collections.OrderedDict({
             'product': str(product_data),
             'file': (mimetype.replace("/", "."), base64.b64decode(image_base64))
@@ -55,7 +56,7 @@ class Akeneo:
         url = self.host + query
         (content, content_type) = urllib3.filepost.encode_multipart_formdata(data)
         headers = {'Content-Type': content_type, 'Authorization': 'Bearer '+ self.accessToken}
-        r = requests.post(url, headers=headers, data=data)
+        r = requests.post(url, headers=headers, data=content)
         if r:
             return r.status_code
         else:
@@ -259,8 +260,8 @@ class Akeneo:
     
     # POST Media File
     # https://api.akeneo.com/api-reference.html#post_media_files
-    def postMediaFileProduct(self, file, sku, attribute, locale, scope):
-        body = self.getMediaFileBody(file, sku, attribute, locale, scope)
+    def postMediaFileProduct(self, filePath, sku, attribute, locale, scope):
+        body = self.getMediaFileBody(filePath, sku, attribute, locale, scope)
         query = '/api/rest/v1/media-files'
         return self.postMediaRequest(query, body)
 
