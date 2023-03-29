@@ -44,7 +44,7 @@ class Akeneo:
             "locale": local
         })
         image_base64 = base64.b64encode(file)
-        mimetype = mimetypes.guess_type(base64.b64decode(image_base64))[0]
+        mimetype = mimetypes.guess_type(base64.b64decode(file))[0]
         payload = collections.OrderedDict({
             'product': str(product_data),
             'file': (mimetype.replace("/", "."), base64.b64decode(image_base64))
