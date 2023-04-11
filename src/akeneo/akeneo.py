@@ -147,6 +147,7 @@ class Akeneo:
         headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer '+ self.accessToken}
         nextPage = True
         items = []
+        nextLink = ''
         while nextPage:
             if not nextLink:
                 url = self.host+url
