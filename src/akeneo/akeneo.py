@@ -187,10 +187,14 @@ class Akeneo:
     def removeProductByCode(self, code):
         query = '/api/rest/v1/products/' + str(code)
         return self.deleteRequest(query)
+    
+    def getChannels(self, limit=100):
+        query = '/api/rest/v1/channels?limit='+ str(limit)
+        return self.getRequestList(query)
 
-    def getCategories(self):
-        query = '/api/rest/v1/categories?limit=100'
-        return self.getRequest(query)
+    def getCategories(self, limit=100):
+        query = '/api/rest/v1/categories?limit='+ str(limit)
+        return self.getRequestList(query)
 
     def patchCategories(self):
         query = '/api/rest/v1/categories'
@@ -204,9 +208,9 @@ class Akeneo:
         query = '/api/rest/v1/categories?search={"parent":[{"operator":"=","value":"'+ str(code) +'"}]}'
         return self.getRequest(query)
 
-    def getFamily(self):
-        query = '/api/rest/v1/families/'
-        return self.getRequest(query)
+    def getFamilies(self, limit=100):
+        query = '/api/rest/v1/families?limit='+ str(limit)
+        return self.getRequestList(query)
 
     def getFamilyByCode(self, code):
         query = '/api/rest/v1/families/'+ str(code)
@@ -248,8 +252,8 @@ class Akeneo:
         query = '/api/rest/v1/attributes/'+ str(attribut)+'/options/'+ str(code)
         return self.patchRequest(query, body, 'application/json')
 
-    def getAttributeGroups(self):
-        query = '/api/rest/v1/attribute-groups/'
+    def getAttributeGroups(self, limit=100):
+        query = '/api/rest/v1/attribute-groups?limit='+ str(limit)
         return self.getRequest(query)
 
     def getAttributeGroupsbyCode(self, code):
@@ -260,6 +264,10 @@ class Akeneo:
         query = '/api/rest/v1/attribute-groups/'+ str(code)
         return self.patchRequest(query, body, 'application/json')
 
+    def getAssociationTypes(self, limit=100):
+        query = '/api/rest/v1/association-types?limit='+ str(limit)
+        return self.getRequestList(query)
+    
     def getAssociationTypesByCode(self, code):
         query = '/api/rest/v1/association-types/'+ str(code)
         return self.getRequest(query)
@@ -268,12 +276,16 @@ class Akeneo:
         query = '/api/rest/v1/association-types/'+ str(code)
         return self.patchRequest(query, body, 'application/json')
 
+    def getMeasureFamilies(self, limit=100):
+        query = '/api/rest/v1/measure-families?limit='+ str(limit)
+        return self.getRequestList(query)
+    
     def getMeasureFamilyByCode(self, code):
         query = '/api/rest/v1/measure-families/'+ str(code)
         return self.getRequest(query)
 
-    def getMeasurementFamily(self):
-        query = '/api/rest/v1/measurement-families/'
+    def getMeasurementFamilies(self):
+        query = '/api/rest/v1/measurement-families'
         return self.getRequest(query)
 
     def patchMeasurementFamily(self, body):
