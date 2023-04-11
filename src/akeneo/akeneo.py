@@ -142,6 +142,33 @@ class Akeneo:
                 print(r.status_code)
             r.close()
         return items
+    
+    def getRequestList(self, url):
+        headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer '+ self.accessToken}
+        nextPage = True
+        items = []
+        while nextPage:
+            if not nextLink:
+                url = self.host+url
+            else:
+                url = nextLink
+            print(url)
+            r = requests.get(url, headers=headers)
+            if r:
+                itemList = r.json()['_embedded']['items']
+                for item in itemList:
+                    items.append(item)
+                data = r.json()['_links']
+                if 'next' in data:
+                    nextLink = data['next']['href']
+                else:
+                    nextPage = False
+            else:
+                print('An error has occurred.')
+                print(r.status_code)
+            r.close()
+        return items
+
 
     # Get Product by Code
     # https://api.akeneo.com/api-reference.html#get_products__code_
@@ -190,7 +217,7 @@ class Akeneo:
     
     def getAttributes(self, limit=100):
         query = '/api/rest/v1/attributes?limit='+ str(limit)
-        return self.getRequest(query)
+        return self.getRequestList(query)
 
     def getAttributByCode(self, code):
         query = '/api/rest/v1/attributes/'+ str(code)
