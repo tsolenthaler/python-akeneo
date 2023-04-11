@@ -188,7 +188,7 @@ class Akeneo:
         query = '/api/rest/v1/families/'+ str(code)
         return self.patchRequest(query, body, 'application/json')
     
-    def getAttributByCode(self):
+    def getAttributes(self):
         query = '/api/rest/v1/attributes/'
         return self.getRequest(query)
 
