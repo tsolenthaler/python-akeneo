@@ -236,19 +236,19 @@ class Akeneo:
         query = '/api/rest/v1/attributes/'+ str(code)
         return self.deleteRequest(query)
 
-    def getAttributOption(self, attribut):
+    def getAttributOptions(self, attribut):
         query = '/api/rest/v1/attributes/'+ str(attribut)+'/options?limit=100'
-        return self.getRequest(query)
+        return self.getRequestList(query)
 
-    def getAttributOptionByCode(self, code, attribut):
+    def getAttributOptionsByCode(self, code, attribut):
         query = '/api/rest/v1/attributes/'+ str(attribut)+'/options/'+ str(code)
         return self.getRequest(query,'application/json')
 
-    def patchAttributOption(self, attribut, body):
+    def patchAttributOptions(self, attribut, body):
         query = '/api/rest/v1/attributes/'+ str(attribut)+'/options'
         return self.patchRequest(query, body, 'application/vnd.akeneo.collection+json')
 
-    def patchAttributOptionByCode(self, code, attribut, body):
+    def patchAttributOptionsByCode(self, code, attribut, body):
         query = '/api/rest/v1/attributes/'+ str(attribut)+'/options/'+ str(code)
         return self.patchRequest(query, body, 'application/json')
 
