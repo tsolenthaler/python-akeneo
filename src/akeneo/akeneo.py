@@ -96,52 +96,6 @@ class Akeneo:
             print(r.json())
             return False
         r.close()
-
-    def getProduct(self, query):
-        url = self.host+query
-        headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer '+ self.accessToken}
-        r = requests.get(url, headers=headers)
-
-        if r:
-            return r.json()
-        else:
-            print('An error has occurred.')
-            print(r.status_code)
-            return False
-        r.close()
-    
-    # Get Products
-    # https://api.akeneo.com/api-reference.html#get_products
-    def getProducts(self, search=''):
-        nextPage = True
-        items = []
-        headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer '+ self.accessToken}
-        nextLink = ''
-        starturl = '/api/rest/v1/products'
-        starturl += '?pagination_type=search_after&limit=100'
-        if len(search) > 2:
-            starturl += '&search='+search
-        while nextPage:
-            if not nextLink:
-                url = self.host+starturl
-            else:
-                url = nextLink
-            print(url)
-            r = requests.get(url, headers=headers)
-            if r:
-                itemList = r.json()['_embedded']['items']
-                for item in itemList:
-                    items.append(item)
-                data = r.json()['_links']
-                if 'next' in data:
-                    nextLink = data['next']['href']
-                else:
-                    nextPage = False
-            else:
-                print('An error has occurred.')
-                print(r.status_code)
-            r.close()
-        return items
     
     def getRequestList(self, url):
         headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer '+ self.accessToken}
@@ -170,6 +124,14 @@ class Akeneo:
             r.close()
         return items
 
+    # Get Products
+    # https://api.akeneo.com/api-reference.html#get_products
+    def getProducts(self, limit=100, search=None):
+        if search is None:
+            query = '/api/rest/v1/products?pagination_type=search_after&limit='+str(limit)
+        else:
+            query = '/api/rest/v1/products?pagination_type=search_after&limit='+str(limit)+'&search='+search
+        return self.getRequestList(query)
 
     # Get Product by Code
     # https://api.akeneo.com/api-reference.html#get_products__code_
@@ -188,6 +150,25 @@ class Akeneo:
         query = '/api/rest/v1/products/' + str(code)
         return self.deleteRequest(query)
     
+    def getProductModels(self, limit=100, search=None):
+        if search is None:
+            query = '/api/rest/v1/product-models?pagination_type=search_after&limit='+str(limit)
+        else:
+            query = '/api/rest/v1/product-models?pagination_type=search_after&limit='+str(limit)+'&search='+search
+        return self.getRequestList(query)
+    
+    def getProductModelByCode(self, code):
+        query = '/api/rest/v1/product-models/' + str(code)
+        return self.getRequest(query)
+    
+    def patchProductModelByCode(self, code, body):
+        query = '/api/rest/v1/product-models/' + str(code)
+        return self.patchRequest(query, body, 'application/json')
+    
+    def removeProductModelByCode(self, code):
+        query = '/api/rest/v1/product-models/' + str(code)
+        return self.deleteRequest(query)
+
     def getChannels(self, limit=100):
         query = '/api/rest/v1/channels?limit='+ str(limit)
         return self.getRequestList(query)
