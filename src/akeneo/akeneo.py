@@ -126,7 +126,7 @@ class Akeneo:
 
     # Get Products
     # https://api.akeneo.com/api-reference.html#get_products
-    def getProducts(self, limit=100, search=None, scope=None, locales=None):
+    def getProducts(self, search=None, scope=None, locales=None, limit=100):
         query = '/api/rest/v1/products?pagination_type=search_after&limit='+str(limit)
         if search is not None:
             query += '&search='+search
