@@ -183,6 +183,10 @@ class Akeneo:
     def patchCategories(self):
         query = '/api/rest/v1/categories'
         return self.patchRequest(query, 'application/json')
+    
+    def patchCategoryByCode(self, code, body):
+        query = '/api/rest/v1/categories/'+ str(code)
+        return self.patchRequest(query, body, 'application/json')
 
     def getCategoryByCode(self, code):
         query = '/api/rest/v1/categories/'+ str(code)
