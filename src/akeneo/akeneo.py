@@ -301,6 +301,10 @@ class Akeneo:
     def getLocales(self, search):
         query = '/api/rest/v1/locales?search='+search
         return self.getRequest(query)
+    
+    def getLocalesEnabled(self):
+        query = '/api/rest/v1/locales?search={"enabled":[{"operator":"=","value":true}]}'
+        return self.getRequest(query)
 
     def patchList(self, query, body):
         url = self.host+query
