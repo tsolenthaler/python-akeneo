@@ -337,7 +337,7 @@ class Akeneo:
                 r = requests.patch(url, data=split_body, headers=headers)
                 if r:
                     print(r.status_code)
-                    print(r.json()['message'])
+                    print(r.text)
                 else:
                     print('An error has occurred.')
                     print(r.status_code)
