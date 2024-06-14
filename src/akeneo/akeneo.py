@@ -125,6 +125,7 @@ class Akeneo:
             else:
                 print('An error has occurred.')
                 print(r.status_code)
+                print(r.json()['message'])
             r.close()
         return items
 
