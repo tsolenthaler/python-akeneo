@@ -311,7 +311,7 @@ class Akeneo:
         query = '/api/rest/v1/locales?search={"enabled":[{"operator":"=","value":true}]}'
         return self.getRequest(query)
     
-    def split_body(body, lines_per_request=100):
+    def split_body(self, body, lines_per_request=100):
         lines = body.split('\n')
         split_bodies = []
         for i in range(0, len(lines), lines_per_request):
@@ -319,7 +319,7 @@ class Akeneo:
             split_bodies.append(split_body)
         return split_bodies
     
-    def check_body_length(body):
+    def check_body_length(self, body):
         lines = body.split('\n')
         if len(lines) > 100:
             return True
