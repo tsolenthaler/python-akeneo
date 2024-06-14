@@ -314,11 +314,15 @@ class Akeneo:
     def patchList(self, query, body):
         url = self.host+query
         headers = {'Content-Type': 'application/vnd.akeneo.collection+json', 'Authorization': 'Bearer '+ self.getAccessToken()}
-        r = requests.patch(url, data=body, headers=headers) #data=payload, 
-        if r:
-            return r
-        else:
-            print('An error has occurred.')
-            print(r.status_code)
-            return False
+        # check body more than 100 item than split
+        if len(body) > 100:
+            for i in range(0, len(body), 100):
+                r = requests.patch(url, data=json.dumps(body[i:i+100]), headers=headers)
+                if r:
+                    print(r.status_code)
+                else:
+                    print('An error has occurred.')
+                    print(r.status_code)
+                    print(r.json()['message'])
+        #r = requests.patch(url, data=body, headers=headers) #data=payload, 
         r.close()
