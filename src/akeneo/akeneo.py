@@ -110,10 +110,14 @@ class Akeneo:
             print(url)
             r = requests.get(url, headers=headers)
             if r:
-                itemList = r.json()['_embedded']['items']
-                for item in itemList:
-                    items.append(item)
-                data = r.json()['_links']
+                if 'code' in r.json():
+                    print("Error: "+r.json()['message'])
+                if '_embedded' in r.json():
+                    itemList = r.json()['_embedded']['items']
+                    for item in itemList:
+                        items.append(item)
+                if '_links' in r.json():
+                    data = r.json()['_links']
                 if 'next' in data:
                     nextLink = data['next']['href']
                 else:
