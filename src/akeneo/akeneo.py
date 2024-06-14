@@ -292,6 +292,15 @@ class Akeneo:
         body = self.getMediaFileBody(filePath, sku, attribute, locale, scope)
         query = '/api/rest/v1/media-files'
         return self.postMediaRequest(query, body)
+    
+    # https://api.akeneo.com/api-reference.html#get_locales
+    def getLocales(self):
+        query = '/api/rest/v1/locales'
+        return self.getRequest(query)
+    
+    def getLocales(self, search):
+        query = '/api/rest/v1/locales?search='+search
+        return self.getRequest(query)
 
     def patchList(self, query, body):
         url = self.host+query
