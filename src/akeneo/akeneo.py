@@ -333,6 +333,7 @@ class Akeneo:
         if self.check_body_length(body):
             split_bodies = self.split_body(body, lines_per_request=100)
             for i, split_body in enumerate(split_bodies):
+                print(f"Request {i+1}")
                 r = requests.patch(url, data=split_body, headers=headers)
                 if r:
                     print(r.status_code)
