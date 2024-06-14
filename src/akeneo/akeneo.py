@@ -311,7 +311,7 @@ class Akeneo:
         headers = {'Content-Type': 'application/vnd.akeneo.collection+json', 'Authorization': 'Bearer '+ self.getAccessToken()}
         r = requests.patch(url, data=body, headers=headers) #data=payload, 
         if r:
-            return r.status_code
+            return r
         else:
             print('An error has occurred.')
             print(r.status_code)
