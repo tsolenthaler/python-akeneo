@@ -314,15 +314,42 @@ class Akeneo:
     def patchList(self, query, body):
         url = self.host+query
         headers = {'Content-Type': 'application/vnd.akeneo.collection+json', 'Authorization': 'Bearer '+ self.getAccessToken()}
-        # check body more than 100 item than split
-        if len(body) > 100:
-            for i in range(0, len(body), 100):
-                r = requests.patch(url, data=json.dumps(body[i:i+100]), headers=headers)
+        # check body have more than 100 rows than split
+        if check_body_length(body):
+            split_bodies = split_body(body, lines_per_request=100)
+            for i, split_body in enumerate(split_bodies):
+                r = requests.patch(url, data=split_body, headers=headers)
                 if r:
                     print(r.status_code)
+                    print(r.json()['message'])
                 else:
                     print('An error has occurred.')
                     print(r.status_code)
                     print(r.json()['message'])
+        else:
+            r = requests.patch(url, data=json.dumps(body), headers=headers)
+            if r:
+                print(r.status_code)
+                print(r.json()['message'])
+            else:
+                print('An error has occurred.')
+                print(r.status_code)
+                print(r.json()['message'])
         #r = requests.patch(url, data=body, headers=headers) #data=payload, 
         r.close()
+
+
+def check_body_length(body):
+    lines = body.split('\n')
+    if len(lines) > 100:
+        return True
+    else:
+        return False
+
+def split_body(body, lines_per_request=100):
+    lines = body.split('\n')
+    split_bodies = []
+    for i in range(0, len(lines), lines_per_request):
+        split_body = '\n'.join(lines[i:i + lines_per_request])
+        split_bodies.append(split_body)
+    return split_bodies
