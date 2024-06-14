@@ -75,7 +75,7 @@ class Akeneo:
         headers = {'Content-Type': contentType, 'Authorization': 'Bearer '+ self.accessToken}
         r = requests.patch(url, data=body, headers=headers) #data=payload,
         if r:
-            return r.status_code
+            return r
         else:
             print('PATCH: An error has occurred.')
             print(r.status_code)
