@@ -310,13 +310,28 @@ class Akeneo:
     def getLocalesEnabled(self):
         query = '/api/rest/v1/locales?search={"enabled":[{"operator":"=","value":true}]}'
         return self.getRequest(query)
+    
+    def split_body(body, lines_per_request=100):
+        lines = body.split('\n')
+        split_bodies = []
+        for i in range(0, len(lines), lines_per_request):
+            split_body = '\n'.join(lines[i:i + lines_per_request])
+            split_bodies.append(split_body)
+        return split_bodies
+    
+    def check_body_length(body):
+        lines = body.split('\n')
+        if len(lines) > 100:
+            return True
+        else:
+            return False
 
     def patchList(self, query, body):
         url = self.host+query
         headers = {'Content-Type': 'application/vnd.akeneo.collection+json', 'Authorization': 'Bearer '+ self.getAccessToken()}
         # check body have more than 100 rows than split
-        if check_body_length(body):
-            split_bodies = split_body(body, lines_per_request=100)
+        if self.check_body_length(body):
+            split_bodies = self.split_body(body, lines_per_request=100)
             for i, split_body in enumerate(split_bodies):
                 r = requests.patch(url, data=split_body, headers=headers)
                 if r:
@@ -337,19 +352,3 @@ class Akeneo:
                 print(r.json()['message'])
         #r = requests.patch(url, data=body, headers=headers) #data=payload, 
         r.close()
-
-
-def check_body_length(body):
-    lines = body.split('\n')
-    if len(lines) > 100:
-        return True
-    else:
-        return False
-
-def split_body(body, lines_per_request=100):
-    lines = body.split('\n')
-    split_bodies = []
-    for i in range(0, len(lines), lines_per_request):
-        split_body = '\n'.join(lines[i:i + lines_per_request])
-        split_bodies.append(split_body)
-    return split_bodies
