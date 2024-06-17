@@ -343,13 +343,16 @@ class Akeneo:
                     print(r.status_code)
                     print(r.json()['message'])
         else:
-            r = requests.patch(url, data=json.dumps(body), headers=headers)
-            if r:
-                print(r.status_code)
-                print(r.json()['message'])
-            else:
-                print('An error has occurred.')
-                print(r.status_code)
-                print(r.json()['message'])
+            split_bodies = self.split_body(body, lines_per_request=100)
+            for i, split_body in enumerate(split_bodies):
+                print(f"Request {i+1}")
+                r = requests.patch(url, data=split_body, headers=headers)
+                if r:
+                    print(r.status_code)
+                    print(r.text)
+                else:
+                    print('An error has occurred.')
+                    print(r.status_code)
+                    print(r.json()['message'])
         #r = requests.patch(url, data=body, headers=headers) #data=payload, 
         r.close()
