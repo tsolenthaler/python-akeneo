@@ -17,6 +17,9 @@ class Akeneo:
         self.passwd = passwd
         self.accessToken = self.getAccessToken()
 
+    def getHost(self):
+        return self.host
+    
     def getAccessToken(self):
         oauth = OAuth2Session(client=LegacyApplicationClient(self.clientid))
         token = oauth.fetch_token(token_url=self.host+'/api/oauth/v1/token',
