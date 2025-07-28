@@ -147,6 +147,10 @@ class Akeneo:
     def getProductBySearch(self, search, limit=100):
         query = '/api/rest/v1/products?limit='+str(limit)+'&search='+search
         return self.getRequestList(query)
+    
+    def getAllProducts(self):
+        query = '/api/rest/v1/products'
+        return self.getRequestList(query)
 
     # Get Product by Code
     # https://api.akeneo.com/api-reference.html#get_products__code_
