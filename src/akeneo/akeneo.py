@@ -107,7 +107,10 @@ class Akeneo:
         nextLink = ''
         while nextPage:
             if not nextLink:
-                url = url
+                if not url.startswith('https://'):
+                    url = self.host + url
+                else:
+                    url = url
             else:
                 url = nextLink
             print(url)
