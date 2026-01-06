@@ -149,7 +149,7 @@ class Akeneo:
         return self.getRequestList(query)
     
     def getAllProducts(self):
-        query = '/api/rest/v1/products'
+        query = '/api/rest/v1/products?limit=100'
         return self.getRequestList(query)
 
     # Get Product by Code
