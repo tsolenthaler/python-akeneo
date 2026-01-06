@@ -107,7 +107,7 @@ class Akeneo:
         nextLink = ''
         while nextPage:
             if not nextLink:
-                url = self.host+url
+                url = url
             else:
                 url = nextLink
             print(url)
